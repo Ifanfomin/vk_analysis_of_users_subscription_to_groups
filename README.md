@@ -9,7 +9,7 @@
 ## Инсталляция библиотек
 ### Для начала работы
 ```ruby
-pip install mysql-connector
+pip install mysql-connector-python
 pip install vk-api
 ```
 ### Для запуска приложения
