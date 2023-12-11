@@ -1,9 +1,11 @@
 from telebot import TeleBot, types
-from config import vk_token, bot_token, host, user, password, database
+from config import vk_token, host, user, password, database
 from classes_main import *
 
 
 def main():
+    bot_token = "TOKEN"
+
     bot = TeleBot(bot_token)
 
     @bot.message_handler(commands=['help', 'start'])
