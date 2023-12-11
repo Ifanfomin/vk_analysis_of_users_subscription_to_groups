@@ -20,12 +20,9 @@ class SaveGroupUsers(object):
             self.session.method("groups.getById", {"group_id": self.group_id})
             self.connecting_to_data_base()
             print("Все участники группы сохранены")
-        except Error as e:
+        except:
             self.id_currect = False
-            if e:
-                print(e)
-            else:
-                print("Введён неверный id группы")
+            print("Введён неверный id группы")
 
     def connecting_to_data_base(self):  # Подключаемся к mysql
         with connect(

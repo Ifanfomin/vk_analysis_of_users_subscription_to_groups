@@ -80,10 +80,14 @@ class SearchingScreen(object):
 
         def button_clicked(e):
             if len(self.selected_groups):
-                search_list = [[search_string_column.controls[1].controls[0].value, search_string_column.controls[1].controls[1].value],
-                               [search_string_column.controls[2].controls[0].value, search_string_column.controls[2].controls[1].value],
-                               [search_string_column.controls[3].controls[0].value, search_string_column.controls[3].controls[1].value],
-                               [search_string_column.controls[4].controls[0].value, search_string_column.controls[4].controls[1].value]]
+                search_list = [[search_string_column.controls[1].controls[0].value,
+                                search_string_column.controls[1].controls[1].value],
+                               [search_string_column.controls[2].controls[0].value,
+                                search_string_column.controls[2].controls[1].value],
+                               [search_string_column.controls[3].controls[0].value,
+                                search_string_column.controls[3].controls[1].value],
+                               [search_string_column.controls[4].controls[0].value,
+                                search_string_column.controls[4].controls[1].value]]
                 print(search_list)
                 search_by_words_dict = SearchByWords(search_list, self.selected_groups, host, db_user, password, database).info_dict
                 new_dict = {}
@@ -112,8 +116,8 @@ class SearchingScreen(object):
             ], scroll=ft.ScrollMode.ALWAYS, height=900
         )
 
-        self.search_screen.tabs[0].content = ft.Container(search_string_column, height=900, width=1700, alignment=ft.alignment.center)
-
+        self.search_screen.tabs[0].content = ft.Container(search_string_column, height=900, width=1700,
+                                                          alignment=ft.alignment.center)
 
     # делает страницы с информацией
     def make_info_screens(self):
@@ -160,7 +164,6 @@ class SearchingScreen(object):
 
         # поиск по айди, имени, дате рождения и месту обучения
 
-
         # основная информация
         intersec_birthday = 0
         for user in intersec_users:
@@ -204,19 +207,18 @@ class SearchingScreen(object):
                     sorted_years_dict[key] = value
 
         years_dict = sorted_years_dict
-        print(years_dict)
 
-        # делаем удобный для вовода список лет с пропуском через "-"
+        # делаем удобный для вывода список лет с пропуском через "-"
         number_of_bars = 35
         if len(years_dict) > number_of_bars:
-            offset = 0 # шаг пропуска лет
-            index = 0 # номер пропущенного года
+            offset = 0  # шаг пропуска лет
+            index = 0  # номер пропущенного года
             # округление в большую сторону
             if len(years_dict) % number_of_bars != 0:
                 offset = int(len(years_dict) / number_of_bars) + 1
             else:
                 offset = len(years_dict) // number_of_bars
-                
+
             skipped_years = ""
             count_of_users = 0
             smaller_years_dict = {}
@@ -360,28 +362,28 @@ class SearchingScreen(object):
         )
 
         self.main_tabs = ft.Container(ft.Tabs(
-                selected_index=0,
-                animation_duration=300,
-                tabs=[
-                    ft.Tab(
-                        text="Выбор групп",
-                        content=ft.Container(self.check_box_column,
-                                             height=900, width=1700, alignment=ft.alignment.center),
-                    ),
-                    ft.Tab(
-                        text="Информация",
-                        # icon=ft.icons.POLYMER,
-                        content=ft.Container(information_tabs,
-                                             height=900, width=1700),
-                    ),
-                    ft.Tab(
-                        text="Поиск по выбранным группам",
-                        # icon=ft.icons.POLYMER,
-                        content=ft.Container(self.search_screen,
-                                             height=900, width=1700, alignment=ft.alignment.center),
-                    ),
-                ], expand=1,
-            ),
+            selected_index=0,
+            animation_duration=300,
+            tabs=[
+                ft.Tab(
+                    text="Выбор групп",
+                    content=ft.Container(self.check_box_column,
+                                         height=900, width=1700, alignment=ft.alignment.center),
+                ),
+                ft.Tab(
+                    text="Информация",
+                    # icon=ft.icons.POLYMER,
+                    content=ft.Container(information_tabs,
+                                         height=900, width=1700),
+                ),
+                ft.Tab(
+                    text="Поиск по выбранным группам",
+                    # icon=ft.icons.POLYMER,
+                    content=ft.Container(self.search_screen,
+                                         height=900, width=1700, alignment=ft.alignment.center),
+                ),
+            ], expand=1,
+        ),
             height=1000,
             width=1700
         )
@@ -416,111 +418,17 @@ def groups_ft_table():
     return column
 
 
-def search_intersections_screen():
-    def make_ft_data_table(users, searching_groups_count):
-        intersections_count = 0
-        lines = []
-        for user in users:
-            intersections_count += 1
-            data_row = ft.DataRow(
-                cells=[
-                    ft.DataCell(
-                        ft.Text(color=ft.colors.BLUE,
-                                spans=[ft.TextSpan(
-                                    text=user[0],
-                                    url=f"https://vk.com/id{int(user[0])}"
-                                )]),
-                    ),
-                    ft.DataCell(ft.Text(user[1])),
-                    ft.DataCell(ft.Text(user[2])),
-                    ft.DataCell(ft.Text(user[3]))
-                ]
-            )
-            lines.append(data_row)
-        ft_table = ft.DataTable(
-            columns=[
-                ft.DataColumn(ft.Text("ID")),
-                ft.DataColumn(ft.Text("Имя Фамилия")),
-                ft.DataColumn(ft.Text("Дата рождения")),
-                ft.DataColumn(ft.Text("Место обучения"))
-            ],
-            rows=lines
-        )
-
-        list_information = [ft.Text(f"Количество групп: {groups_count}", size=20),
-                            ft.Text(f"Количество выбранных групп: {searching_groups_count}", size=20),
-                            ft.Text(f"Koличество пересечений: {intersections_count}", size=20),
-                            ft_table
-                            ]
-        information_column = ft.Column(spacing=10, controls=list_information,
-                                       scroll=ft.ScrollMode.ALWAYS,
-                                       height=900)
-        page_row.controls[1] = information_column
-
-    def start_search_intersections(e):
-        print("Поиск начат")
-        searching_groups = []
-        for line_i in range(len(column_list)):
-            group_id = ""
-            if 0 < line_i < groups_count + 1:
-                if column_list[line_i].value == True:
-                    group_id = column_list[line_i].label.split('"')[3]
-            if group_id != "":
-                searching_groups.append(group_id)
-
-        print(searching_groups)
-        searching_groups_count = len(searching_groups)
-
-        if searching_groups:
-            users = SearchForIntersections(searching_groups, host, db_user, password, database).users
-            print(users)
-            make_ft_data_table(users, searching_groups_count)
-            page_row.update()
-
-    print("экран выбора групп для поиска пересечений")
-    sql_column = ShowDataBaseTables(host, db_user, password, database).groups
-    column_list = [ft.Text("Выбор группы для поиска пересечений")]
-    groups_count = 0
-    for line in sql_column:
-        column_list.append(ft.Checkbox(label=f'"{line[0]}" "{line[1]}"', value=False))
-        groups_count += 1
-
-    users_table = ft.DataTable(
-        columns=[
-            ft.DataColumn(ft.Text("ID")),
-            ft.DataColumn(ft.Text("Имя Фамилия")),
-            ft.DataColumn(ft.Text("Дата рождения")),
-            ft.DataColumn(ft.Text("Место обучения"))
-        ]
-    )
-    searching_group_count = 0
-    intersections_count = 0
-    list_information = [ft.Text(f"Количество групп: {groups_count}", size=20),
-                        ft.Text(f"Количество выбранных групп: {searching_group_count}", size=20),
-                        ft.Text(f"Koличество пересечений: {intersections_count}", size=20),
-                        users_table
-                        ]
-    information_column = ft.Column(spacing=10, controls=list_information, scroll=ft.ScrollMode.ALWAYS,
-                                   height=900)
-
-    submit_button = ft.ElevatedButton(text="Поиск", on_click=start_search_intersections)
-    column_list.append(submit_button)
-    check_box_column = ft.Column(spacing=10, controls=column_list, scroll=ft.ScrollMode.ALWAYS, height=900)
-    page_row = ft.Row([check_box_column, information_column])
-    return page_row
-
-
 def save_group_users(searching_screen):
     def start_save(e):
         print(group_id)
         try:
             page_column.controls[2] = ft.Text(f"Сохраняем...", size=20)
             page_column.update()
-            group_name = SaveGroupUsers(group_id.value, vk_token, host, db_user, password, database).group_name
-            if group_name:
-                page_column.controls[2] = ft.Text(f"Группа {group_name} сохранена", size=20)
-            else:
+            group_name = SaveGroupUsers(group_id.value, vk_token, host, db_user, password, database)
+            if not (group_name.id_currect):
                 page_column.controls[2] = ft.Text(f"Группа {group_id.value}, не найдена, либо уже существует", size=20)
+            else:
+                page_column.controls[2] = ft.Text(f"Группа {group_name.group_name} сохранена", size=20)
             page_column.update()
             searching_screen.update_groups_list()
         except Error as e:
