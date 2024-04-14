@@ -3,7 +3,7 @@
 Язык программирования: Python  
 Получение данных с помощью: vk api  
 Структурированное хранение и обработка: MySQL или SQLite3  
-Взаимодействие пользователя с проектом: flet или PyTelegramBotApi (бот недоработан)
+Взаимодействие пользователя с проектом: flet
 ## Инсталляция библиотек
 ### Обязательно vk-api
 ```ruby
@@ -31,13 +31,4 @@ python on_sqlite3/app_main.py
 или
 ```ruby
 python on_mysql/app_main.py 
-```
-### Для запуска telegram бота (не доработан)
-```ruby
-pip install PyTelegramBotApi
-```
-В bot_test_file.py на 7 строчке ввести токен бота  
-перекинуть файл с ботом в папку on_mysql
-```ruby
-python on_mysql/bot_test_file.py
 ```
