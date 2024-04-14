@@ -23,7 +23,7 @@ pip install mysql-connector-python
 (Если нет пароля, то оставить поле пустым)
 ### Для запуска приложения на flet
 ```ruby
-pip install flet
+pip install flet==0.10.2
 ```
 ```ruby
 python on_sqlite3/app_main.py 
